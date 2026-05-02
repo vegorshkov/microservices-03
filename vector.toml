@@ -1,0 +1,20 @@
+[sources.docker_logs]
+type = "docker_logs"
+
+[transforms.remap]
+type = "remap"
+inputs = ["docker_logs"]
+source = '''
+.service = .container_name
+.timestamp = now()
+'''
+
+[sinks.elasticsearch]
+type = "elasticsearch"
+inputs = ["remap"]
+endpoint = "http://elasticsearch:9200"
+mode = "bulk"
+
+auth.strategy = "basic"
+auth.user = "elastic"
+auth.password = "qwerty123456"

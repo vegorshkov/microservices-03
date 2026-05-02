@@ -1,0 +1,70 @@
+{
+  "uid": "api-gateway-metrics",
+  "title": "API Gateway - Request Distribution",
+  "timezone": "browser",
+  "schemaVersion": 38,
+  "version": 1,
+  "refresh": "5s",
+  "panels": [
+    {
+      "type": "timeseries",
+      "title": "Requests per service (RPS)",
+      "gridPos": { "x": 0, "y": 0, "w": 24, "h": 8 },
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "sum(rate(http_requests_total[1m])) by (job)",
+          "legendFormat": "{{job}}"
+        }
+      ]
+    },
+    {
+      "type": "timeseries",
+      "title": "Security service traffic",
+      "gridPos": { "x": 0, "y": 8, "w": 8, "h": 6 },
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "sum(rate(http_requests_total{job=\"security\"}[1m]))",
+          "legendFormat": "security"
+        }
+      ]
+    },
+    {
+      "type": "timeseries",
+      "title": "Uploader service traffic",
+      "gridPos": { "x": 8, "y": 8, "w": 8, "h": 6 },
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "sum(rate(http_requests_total{job=\"uploader\"}[1m]))",
+          "legendFormat": "uploader"
+        }
+      ]
+    },
+    {
+      "type": "timeseries",
+      "title": "Storage (MinIO) traffic",
+      "gridPos": { "x": 16, "y": 8, "w": 8, "h": 6 },
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "sum(rate(minio_http_requests_total[1m]))",
+          "legendFormat": "minio"
+        }
+      ]
+    },
+    {
+      "type": "stat",
+      "title": "Service health (up)",
+      "gridPos": { "x": 0, "y": 14, "w": 24, "h": 6 },
+      "datasource": "Prometheus",
+      "targets": [
+        {
+          "expr": "up",
+          "legendFormat": "{{job}}"
+        }
+      ]
+    }
+  ]
+}
